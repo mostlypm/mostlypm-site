@@ -3,19 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>mostlypm — a product quest by Gayatri</title>
+<title>mostlypm · Gayatri, PM partner for 0 → 1</title>
 <meta name="description" content="Notes and one-minute games on building products in the AI-native era, by Gayatri, a PM partner for 0 → 1 products. A new quest every week.">
 <link rel="canonical" href="https://mostlypm.com/">
-<meta property="og:title" content="mostlypm — a product quest">
-<meta property="og:description" content="Four one-minute levels that teach how to turn an idea into a working AI product. A new world every week.">
+<meta property="og:title" content="mostlypm · Gayatri, PM partner for 0 → 1">
+<meta property="og:description" content="A working product, not just a spec. Notes on building AI products, and a weekly quest to test your knowledge.">
 <meta property="og:url" content="https://mostlypm.com/">
 <meta property="og:type" content="website">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<script>(function(){var d=new Date(),t=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),c=d.getDay()===1;try{var s=JSON.parse(localStorage.getItem('mpm-quest-v2')||'null');if(s&&s.modeDay===t)c=!!s.classic}catch(e){}if(c)document.documentElement.classList.add('classic')})()</script>
+<script>(function(){var d=new Date(),t=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),c=true,g=location.hash.indexOf('#play')===0;try{var s=JSON.parse(localStorage.getItem('mpm-quest-v2')||'null');if(s&&s.pref==='game')c=false;if(s&&s.modeDay===t)c=!!s.classic}catch(e){}if(g)c=false;if(c)document.documentElement.classList.add('classic')})()</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/game.css?v=1018d">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/game.css?v=1018x">
 </head>
 <body>
 <a class="skip-link" href="#log">Skip to the notes</a>
@@ -23,7 +23,7 @@
 <header class="hud">
   <div class="g"><div class="in hud-in">
     <a class="logo" href="/">mostly<span>pm</span></a>
-    <nav class="hud-nav" aria-label="Main"><a href="/" data-quest-link aria-current="page">Quest</a><a href="/notes/">Notes</a><a href="/work/">Work with me</a></nav>
+    <nav class="hud-nav" aria-label="Main"><a href="/" class="nav-home">Home</a><a href="/" data-quest-link aria-current="page">Quest</a><a href="/notes/">Notes</a><a href="/work/">Work with me</a></nav>
     <div class="stats game-only">
       <div class="xp" aria-live="polite"><span>Week XP</span><span class="xpbar" aria-hidden="true"><i id="xpfill"></i></span><span id="xptext">0 / 1050</span></div>
       <div class="badges" aria-label="Levels cleared this week"><span class="badges-k">Cleared</span><span class="badge" id="b-u" title="Level 1: Understand">1</span><span class="badge" id="b-p" title="Level 2: Prove">2</span><span class="badge" id="b-s" title="Level 3: Shape and ship">3</span><span class="badge wide" id="b-d" title="Side quest">Side</span></div>
@@ -35,17 +35,55 @@
 
 <main class="g"><div class="in">
 
-  <section class="classic-only classic-intro">
-    <p class="day-note" data-mood-note hidden>It's Focus Monday, so the quest is resting. <button class="mode-btn" type="button" data-mode-toggle>Game mode</button></p>
-    <h1>Notes from a PM in the AI-native era.</h1>
-    <p>I'm Gayatri, a product manager with 10+ years in enterprise software. I write about AI, product fundamentals, and turning ideas into working products.</p>
-    <div class="row"><a href="#log">Read the notes ↓</a><a href="/work/">Work with me →</a></div>
+  <section class="classic-only classic-hero" aria-labelledby="classic-h">
+    <div class="c-text">
+      <p class="c-eyebrow">Product building in the AI-native era</p>
+      <h1 id="classic-h">Your PM partner for 0 → 1. A working product, not just a spec.</h1>
+      <p class="c-lead">From idea to a Product Blueprint, a working UI with realistic data, and tests for every AI feature. Then support through the build. Built on 10+ years of shipping enterprise software.</p>
+      <a class="c-proof" href="/notes/ai-feature-eval-harness/"><span>Recent work</span>An eval harness that tests five AI features on a mortgage platform before every release →</a>
+      <div class="c-cta"><a class="btn" href="/work/">Work with me</a><a class="btn ghost" href="#log">Read the notes</a></div>
+      <p class="c-play">Want to test your knowledge? <button class="link-btn" type="button" data-mode-toggle>Play the quest</button>: one-minute levels, a new product every week.</p>
+      <p class="c-belief">When building is cheap, going back to PM fundamentals is the job.</p>
+    </div>
+    <figure class="c-visual">
+      <div class="bp" id="bp" style="--x: 50%">
+        <div class="bp-layer bp-prod" aria-hidden="true">
+          <div class="bp-head"><b>Today's patients</b><span>3 new</span></div>
+          <div class="bp-row"><span class="bp-av">PS</span><span class="bp-txt"><b>Priya S., 34</b><i>"Sharp pain on my left side since Tuesday"</i></span><span class="bp-chip ok">Summary ready</span></div>
+          <div class="bp-row"><span class="bp-av">AM</span><span class="bp-txt"><b>Arjun M., 61</b><i>"Dizzy, allergic to penicillin"</i></span><span class="bp-chip warn">Allergy flagged</span></div>
+          <div class="bp-row"><span class="bp-av">NR</span><span class="bp-txt"><b>Neha R., 27</b><i>"Not feeling great, tired a lot"</i></span><span class="bp-chip ask">Ask follow-up</span></div>
+          <div class="bp-eval"><span>AI quality test</span><span class="bp-bar"><i></i><s></s></span><span>41 / 50 · goal 45</span></div>
+        </div>
+        <div class="bp-layer bp-plan" aria-hidden="true">
+          <div class="bp-head"><b>LIST · today's patients</b><span>count</span></div>
+          <div class="bp-row"><span class="bp-av">?</span><span class="bp-txt"><b>REQ-01</b><i>show the patient's own words</i></span><span class="bp-chip">status</span></div>
+          <div class="bp-row"><span class="bp-av">?</span><span class="bp-txt"><b>REQ-02</b><i>never miss an allergy</i></span><span class="bp-chip">flag</span></div>
+          <div class="bp-row"><span class="bp-av">?</span><span class="bp-txt"><b>REQ-03</b><i>vague input: ask, don't guess</i></span><span class="bp-chip">ask</span></div>
+          <div class="bp-eval"><span>TEST-01 · 50 real examples</span><span class="bp-bar"><i></i></span><span>ship at 45</span></div>
+        </div>
+        <div class="bp-line" aria-hidden="true"></div>
+        <span class="bp-tag l" aria-hidden="true">Blueprint</span><span class="bp-tag r" aria-hidden="true">Working product</span>
+        <input class="bp-slider" id="bp-slider" type="range" min="4" max="96" value="50" aria-label="Drag to compare the blueprint with the working product">
+        <span class="bp-handle" aria-hidden="true">⇆</span>
+      </div>
+      <figcaption>Same screen, before and after. Drag the line.</figcaption>
+    </figure>
+  </section>
+
+  <section class="classic-only classic-method" aria-labelledby="method-h">
+    <h2 id="method-h">How I work</h2>
+    <ol class="c-phases">
+      <li><span class="c-n">01</span><h3>Understand</h3><p>A product workshop to find the real problem: who it's for, how they work today, and what to build first.</p><a href="/notes/understand/">Read more →</a></li>
+      <li><span class="c-n">02</span><h3>Prove</h3><p>Test the riskiest AI part with a quick, rough version, then write the Product Blueprint with real answers to test against.</p><a href="/notes/prove/">Read more →</a></li>
+      <li><span class="c-n">03</span><h3>Shape &amp; ship</h3><p>A working UI with realistic data, a quality baseline for every AI feature, and support while your engineers build.</p><a href="/notes/shape-and-ship/">Read more →</a></li>
+    </ol>
   </section>
 
   <section class="title game-only">
-    <span class="week-pill"><b data-mood>Today</b> · <span id="week-label">This week</span> · world: <span id="world-name">loading</span></span>
-    <h1>Turn an idea into a working product.</h1>
-    <p class="lead">Four one-minute levels on how Gayatri builds products in the AI-native era. A new world every week.</p>
+    <span class="week-pill"><b data-mood>Today</b> · <span id="week-label">This week</span></span>
+    <p class="week-product">This week's product: <b id="world-name">loading</b></p>
+    <h1>Test your knowledge.</h1>
+    <p class="lead">You play a product manager. Four one-minute levels on turning an idea into a working AI product. A new product every week.</p>
   </section>
 
   <section class="map game-only" aria-label="Level map">
@@ -56,14 +94,14 @@
       <button class="lvl" data-l="1"><span class="node">1</span><span class="nm">Understand</span><span class="sub">Find the real problem</span><span class="st"></span></button>
       <button class="lvl" data-l="2"><span class="node">2</span><span class="nm">Prove</span><span class="sub">Test the AI</span><span class="st"></span></button>
       <button class="lvl" data-l="3"><span class="node">3</span><span class="nm">Shape &amp; ship</span><span class="sub">Plan the first version</span><span class="st"></span></button>
-      <button class="lvl boss" data-l="boss"><span class="node">★</span><span class="nm">Boss level</span><span class="sub">Your idea + Gayatri</span><span class="st"></span></button>
+      <button class="lvl boss" data-l="boss"><span class="node">+</span><span class="nm">Co-op mode</span><span class="sub">Build your idea with Gayatri</span><span class="st"></span></button>
       <button class="lvl side" data-l="side"><span class="node">?</span><span class="nm">Side quest</span><span class="sub">A real AI testing tool</span><span class="st"></span></button>
     </div>
   </section>
 
-  <section class="sec" id="log">
+  <section class="sec classic-only" id="log">
     <h2><span class="game-only" style="display:inline">Quest log</span><span class="classic-only" style="display:inline">Notes</span></h2>
-    <p class="lead">Every level is also a post. No XP needed.</p>
+    <p class="lead"><span class="game-only" style="display:inline">Every level is also a post. No XP needed.</span><span class="classic-only" style="display:inline">Writing on AI, product fundamentals, and turning ideas into working products.</span></p>
     <div class="log">
 <!-- POSTS -->
       <a class="post" href="/notes/when-building-is-cheap/"><span class="k">Series · Intro</span><span class="t">The Product Blueprint: when building is cheap, fundamentals are everything</span><span class="s">Three posts on how I run 0 → 1 products now. One per phase: Understand, Prove, Shape &amp; ship.</span></a>
@@ -74,12 +112,14 @@
     </div>
   </section>
 
-  <section class="sec">
+  <section class="sec classic-only">
     <div class="who-card">
       <span data-mo></span>
-      <p><b>Who's behind this?</b> Gayatri: PM by work, curious by nature, 10+ years in enterprise software. She also partners with teams part-time on 0 → 1 products. <a href="/work/">See how →</a></p>
+      <p><b>Who's behind this?</b> I'm Gayatri, a product manager from enterprise software. These days I help teams ship AI features they can measure. <a href="/work/">Work with me →</a></p>
     </div>
   </section>
+
+  <p class="game-only read-instead">Prefer reading? <a href="/notes/">Read the notes</a> or see how to <a href="/work/">work with Gayatri</a>.</p>
 
   <footer class="foot"><span>mostlypm · Mostly PM thinking. Fully working product.</span><span>© 2026 Gayatri</span></footer>
 </div></main>
@@ -91,7 +131,7 @@
     <div class="choices" id="guide-choices"></div>
     <button class="hide" id="guide-hide" type="button" aria-label="Hide Mo">✕</button>
   </div>
-  <span data-mo="mo"></span>
+  <span class="mo-sprite" data-mo></span>
 </div>
 <button class="mo-btn game-only" id="mo-btn" type="button" hidden aria-label="Ask Mo, your guide"><span data-mo></span></button>
 
@@ -102,7 +142,19 @@
   </div>
 </div>
 
-<script src="/assets/quests.js?v=1018d"></script>
-<script src="/assets/game.js?v=1018d"></script>
+<script>
+(function () {
+  var bp = document.getElementById('bp'), sl = document.getElementById('bp-slider');
+  if (!bp || !sl) return;
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches, touched = false, t0 = null;
+  function set(v) { bp.style.setProperty('--x', v + '%'); }
+  sl.addEventListener('input', function () { touched = true; set(sl.value); });
+  if (reduce) return;
+  function tick(ts) { if (touched) return; if (t0 === null) t0 = ts; var v = 50 + 30 * Math.sin((ts - t0) / 2400); sl.value = v; set(v.toFixed(2)); requestAnimationFrame(tick); }
+  requestAnimationFrame(tick);
+})();
+</script>
+<script src="/assets/quests.js?v=1018x"></script>
+<script src="/assets/game.js?v=1018x"></script>
 </body>
 </html>

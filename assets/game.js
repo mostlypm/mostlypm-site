@@ -28,7 +28,7 @@
   var DOW = now.getDay();
   var MOODS = {
     0: { name: 'Weekend quest', classic: false, mult: 1, hi: 'Weekend quest: no rush.' },
-    1: { name: 'Focus Monday', classic: true, mult: 1, hi: "It's Focus Monday, so the site opens in classic mode." },
+    1: { name: 'Fresh-start Monday', classic: true, mult: 1, hi: '' },
     2: { name: 'Build Tuesday', classic: false, mult: 1, hi: '' },
     3: { name: 'Midweek', classic: false, mult: 1, hi: '' },
     4: { name: 'Ship Thursday', classic: false, mult: 1, hi: '' },
@@ -44,8 +44,20 @@
   var S = fresh();
   try { var saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved && typeof saved === 'object') S = Object.assign(fresh(), saved); } catch (e) {}
   var newWeek = S.week !== WEEK;
+  var returning = S.weeks.length > 0 || S.xp > 0 || (S.guide && S.guide.seen);
   if (newWeek) { S.lastWeek = S.week; S.week = WEEK; S.done = {}; S.weekXp = 0; }
-  S.classic = S.modeDay === TODAY ? !!S.classic : MOOD.classic;
+  /* First-time visitors land on classic. Anyone who has chosen the game lands in the game next time, until they switch back. */
+  S.classic = S.modeDay === TODAY ? !!S.classic : S.pref !== 'game';
+  var FIXED = document.documentElement.getAttribute('data-fixed-mode') === 'classic';
+  if (location.hash.indexOf('#play') === 0) { S.classic = false; S.modeDay = TODAY; }
+  /* analytics hook: works with Plausible, PostHog or Google Analytics if one is on the page */
+  function track(name, props) {
+    props = props || {};
+    try { if (window.plausible) window.plausible(name, { props: props }); } catch (e) {}
+    try { if (window.posthog && window.posthog.capture) window.posthog.capture(name, props); } catch (e) {}
+    try { if (window.gtag) window.gtag('event', name, props); } catch (e) {}
+  }
+  window.mpmTrack = track;
   function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
   function markWeek() { if (S.weeks.indexOf(WEEK) === -1) { S.weeks.push(WEEK); S.weeks = S.weeks.slice(-60); } }
   function streak() {
@@ -78,15 +90,21 @@
 
   /* ---------- classic / game mode ---------- */
   function applyMode() {
-    document.documentElement.classList.toggle('classic', !!S.classic);
+    document.documentElement.classList.toggle('classic', FIXED || !!S.classic);
     $$('[data-quest-link]').forEach(function (q) {
-      q.textContent = S.classic ? 'Play the quest' : 'Quest';
+      q.textContent = 'Quest';
       if (S.classic) q.removeAttribute('aria-current'); else if (location.pathname === '/') q.setAttribute('aria-current', 'page');
     });
-    $$('[data-mode-toggle]').forEach(function (b) { b.textContent = S.classic ? 'Game mode' : 'Classic mode'; b.setAttribute('aria-label', S.classic ? 'Switch to game mode' : 'Not feeling playful? Switch to classic mode'); });
+    $$('.nav-home').forEach(function (h) {
+      if (S.classic && location.pathname === '/') h.setAttribute('aria-current', 'page'); else h.removeAttribute('aria-current');
+    });
+    $$('[data-mode-toggle]').forEach(function (b) { if (!b.classList.contains('link-btn')) b.textContent = S.classic ? 'Play the quest' : 'Classic mode'; b.setAttribute('aria-label', S.classic ? 'Switch to game mode' : 'Not feeling playful? Switch to classic mode'); });
   }
-  function setMode(classic) { S.classic = classic; S.modeDay = TODAY; save(); applyMode(); if (classic) hideGuide(true); else if (isHub) showGuide(); }
+  function setMode(classic) { S.pref = classic ? 'classic' : 'game'; track('mode_switch', { to: classic ? 'classic' : 'game' }); window.scrollTo({ top: 0, behavior: 'auto' }); S.classic = classic; S.modeDay = TODAY; save(); applyMode(); if (classic) hideGuide(true); else if (isHub) showGuide(); }
   $$('[data-mode-toggle]').forEach(function (b) { b.addEventListener('click', function () { setMode(!S.classic); }); });
+  /* links from classic pages into the game */
+  function toGame() { S.pref = 'game'; S.classic = false; S.modeDay = TODAY; save(); track('mode_switch', { to: 'game', from: location.pathname }); }
+  $$('[data-play-game], [data-level-link]').forEach(function (a) { a.addEventListener('click', toGame); });
   $$('[data-quest-link]').forEach(function (q) { q.addEventListener('click', function (e) {
     if (!S.classic) return;
     e.preventDefault(); setMode(false);
@@ -105,11 +123,11 @@
   }
   renderHud();
   $$('[data-mood]').forEach(function (n) { n.textContent = MOOD.name; });
-  $$('[data-mood-note]').forEach(function (n) { if (DOW === 1) { n.hidden = false; } });
 
   /* Post pages: a "play this level" banner */
   $$('[data-level-link]').forEach(function (a) { var l = a.getAttribute('data-level-link'); a.href = '/#play-' + l; });
 
+  track('visit', { visitor: returning ? 'returning' : 'new', mood: MOOD.name, mode: S.classic ? 'classic' : 'game' });
   var isHub = !!$('#levels');
   if (!isHub) return;
 
@@ -152,8 +170,9 @@
   var overlay = $('#overlay'), panel = $('#panel'), pbody = $('#pbody'), ptitle = $('#ptitle'), pkick = $('#pkick');
   var lastFocus = null;
   function open(kick, title) { lastFocus = document.activeElement; pkick.textContent = kick; ptitle.textContent = title; pbody.innerHTML = ''; overlay.hidden = false; panel.scrollTop = 0; panel.focus(); hideGuide(true); }
-  function close() { overlay.hidden = true; renderMap(); if (lastFocus && lastFocus.focus) lastFocus.focus(); if (!S.classic) setTimeout(showGuide, 300); }
-  $('#close').addEventListener('click', close);
+  var close = function () { overlay.hidden = true; renderMap(); if (lastFocus && lastFocus.focus) lastFocus.focus(); if (!S.classic) setTimeout(function () { showGuide(); }, 300); };
+  function closeRef() { close(); }
+  $('#close').addEventListener('click', closeRef);
   overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !overlay.hidden) close(); });
 
@@ -162,13 +181,13 @@
     var row = el('div', 'row');
     var nextMap = { 0: '1', 1: '2', 2: '3', side: '3', 3: 'boss' };
     var nx = nextMap[l];
-    var nb = el('button', 'btn', nx === 'boss' ? 'Boss level →' : 'Next level →');
+    var nb = el('button', 'btn', nx === 'boss' ? 'Unlock co-op mode →' : 'Next level →');
     nb.addEventListener('click', function () { if (nx === 'boss') { location.href = '/work/'; } else play(nx); });
     var rd = el('a', 'btn ghost', 'Read the post'); rd.href = postUrl(l);
     row.appendChild(nb); row.appendChild(rd);
     if (l === 2 && !S.done.side) { var sq = el('button', 'btn ghost', 'Side quest'); sq.addEventListener('click', function () { play('side'); }); row.appendChild(sq); }
     fb.appendChild(row); pbody.appendChild(fb);
-    if (!S.done[l]) { S.done[l] = true; if (BADGE[l]) S.badges[BADGE[l]] = true; markWeek(); save(); renderMap(); }
+    if (!S.done[l]) { track('level_cleared', { level: String(l), world: WORLD ? WORLD.id : '' }); S.done[l] = true; if (BADGE[l]) S.badges[BADGE[l]] = true; markWeek(); save(); renderMap(); }
     fb.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' }); nb.focus({ preventScroll: true });
   }
 
@@ -187,12 +206,19 @@
     return box;
   }
 
-  function scene() { if (WORLD && WORLD.scene) { var d = el('div', 'scene'); d.appendChild(el('b', null, 'The setting: ')); d.appendChild(document.createTextNode(WORLD.scene)); pbody.appendChild(d); } }
+  function scene(text) {
+    var d = el('div', 'scene');
+    var r = el('p', 'role'); r.appendChild(el('b', null, 'You play: ')); r.appendChild(document.createTextNode('a product manager (PM), the person who decides what gets built and why.')); d.appendChild(r);
+    var s = text || (WORLD && WORLD.scene);
+    if (s) { var q = el('p'); q.appendChild(el('b', null, 'The setting: ')); q.appendChild(document.createTextNode(s)); d.appendChild(q); }
+    pbody.appendChild(d);
+  }
 
   /* ---------- Level 0 ---------- */
   function lvl0() {
     var q = Q.start[weekIndex % Q.start.length];
     open('Start · this week', 'When building is cheap');
+    scene('AI tools now let anyone build a working app in hours.');
     pbody.appendChild(el('p', 'brief', q.q));
     quiz(q.options, function (ok, b) { if (ok) gain(XP[0], b); finish(0, ok ? 'Correct. +' + XP[0] * MOOD.mult + ' XP' : 'Not quite.', q.lesson); });
   }
@@ -200,7 +226,7 @@
   /* ---------- Level 1: shadow the user ---------- */
   function lvl1() {
     var d = WORLD.desk;
-    open('Level 1 · Understand · ' + WORLD.name, 'Find the real problem');
+    open('Level 1 · Understand', 'Find the real problem');
     scene();
     pbody.appendChild(el('p', 'step-label', 'Step 1 of 2 · Spot the hacks'));
     pbody.appendChild(el('p', 'brief', d.brief));
@@ -240,7 +266,7 @@
     var cases = shuffle(E.cases).slice(0, 4);
     var p = cases.filter(function (c) { return c.pass; }).length;
     if (p === 0 || p === 4) { var swap = E.cases.filter(function (c) { return c.pass !== cases[0].pass; })[0]; if (swap) cases[3] = swap; }
-    open('Level 2 · Prove · ' + WORLD.name, 'Test the AI');
+    open('Level 2 · Prove', 'Test the AI');
     scene();
     pbody.appendChild(el('p', 'step-label', 'Step 1 of 2 · Check the AI\'s answers'));
     var gs = el('div', 'explain');
@@ -288,7 +314,7 @@
   function lvlSide() {
     var qs = shuffle(Q.side).slice(0, 2), earned = 0;
     open('Side quest · real case study', 'The AI testing tool');
-    var si = el('div', 'scene'); si.appendChild(el('b', null, 'The setting: ')); si.appendChild(document.createTextNode(Q.sideIntro)); pbody.appendChild(si);
+    scene(Q.sideIntro);
     pbody.appendChild(el('p', 'brief', 'Two questions.'));
     function ask(i) {
       var q = qs[i], wrap = el('div'); if (i) wrap.style.marginTop = '20px'; pbody.appendChild(wrap);
@@ -307,7 +333,7 @@
   /* ---------- Level 3: pick the MVP ---------- */
   function lvl3() {
     var M = WORLD.mvp, feats = shuffle(M.feats), picked = [];
-    open('Level 3 · Shape & ship · ' + WORLD.name, 'Plan the first version');
+    open('Level 3 · Shape & ship', 'Plan the first version');
     scene();
     pbody.appendChild(el('p', 'brief', M.brief));
     var slots = el('div', 'slots'); pbody.appendChild(slots);
@@ -348,45 +374,125 @@
   levels.forEach(function (b) { b.addEventListener('click', function () { if (!b.disabled) play(b.getAttribute('data-l')); }); });
   renderMap();
 
-  /* ---------- guide ---------- */
+  /* ---------- guide: Mo hops around the page ---------- */
   var guide = $('#guide'), say = $('#guide-say'), choices = $('#guide-choices'), moBtn = $('#mo-btn');
-  var typing = null;
+  var sprite = $('.mo-sprite', guide), bubble = $('.bubble', guide);
+  var typing = null, here = null, cur = { x: 0, y: 0 }, busy = false;
   function typeText(t) {
     if (typing) clearInterval(typing);
     if (reduce) { say.textContent = t; return; }
     var i = 0; say.textContent = '';
-    typing = setInterval(function () { i += 2; say.textContent = t.slice(0, i); if (i >= t.length) { clearInterval(typing); typing = null; } }, 18);
+    typing = setInterval(function () { i += 2; say.textContent = t.slice(0, i); if (i >= t.length) { clearInterval(typing); typing = null; } }, 16);
   }
   function choice(label, cls, fn) { var b = el('button', 'btn sm ' + (cls || ''), label); b.type = 'button'; b.addEventListener('click', fn); choices.appendChild(b); return b; }
-  function goRead() { S.guide.mode = 'read'; S.guide.seen = true; save(); hideGuide(); var t = $('#log'); if (t) t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }
-  function goPlay() { S.guide.mode = 'play'; S.guide.seen = true; save(); hideGuide(); play(nextLevel()); }
+  function nodeOf(l) { var b = $('.lvl[data-l="' + l + '"] .node'); return b; }
+  /* where Mo stands for a target: sitting on top of it, or beside a heading */
+  function spot(t) {
+    var r = t.getBoundingClientRect(), sx = window.scrollX, sy = window.scrollY, size = sprite.offsetWidth || 72;
+    var x, y;
+    if (t.classList.contains('node')) { x = r.left + r.width / 2 - size / 2; y = r.top - size + 10; }
+    else { x = Math.min(r.right + 12, window.innerWidth - size - 16); y = r.top + r.height / 2 - size / 2; if (x < r.left) { x = r.left; y = r.top - size - 4; } }
+    return { x: Math.round(x + sx), y: Math.round(y + sy) };
+  }
+  function placeBubble() {
+    var vw = document.documentElement.clientWidth, size = sprite.offsetWidth || 72;
+    bubble.style.left = ''; bubble.style.right = ''; bubble.style.top = '';
+    var bw = Math.min(380, vw - 32), vx = cur.x - window.scrollX;
+    bubble.style.width = bw + 'px';
+    var narrow = vw < 720;
+    if (narrow) { var th = here && here.classList.contains('node') ? here.offsetHeight - 10 : 0; bubble.style.top = (size + th + 12) + 'px'; bubble.style.left = (16 - vx) + 'px'; guide.classList.add('below'); guide.classList.remove('left'); return; }
+    guide.classList.remove('below');
+    if (vx + size + 14 + bw <= vw - 16) { bubble.style.left = (size + 14) + 'px'; guide.classList.remove('left'); }
+    else { bubble.style.left = (-bw - 14) + 'px'; guide.classList.add('left'); }
+    bubble.style.top = '-6px';
+  }
+  function setPos(p) { cur = p; guide.style.transform = 'translate(' + p.x + 'px,' + p.y + 'px)'; }
+  function hudH() { var h = $('.hud'); return h ? h.getBoundingClientRect().bottom : 0; }
+  function inView(t) { var r = t.getBoundingClientRect(), narrow = document.documentElement.clientWidth < 720; return r.top > hudH() + 90 && r.bottom < window.innerHeight - (narrow ? 260 : 40); }
+  function scrollTo(t) {
+    var r = t.getBoundingClientRect(), narrow = document.documentElement.clientWidth < 720;
+    var y = narrow ? r.top + window.scrollY - hudH() - 96 : r.top + window.scrollY - window.innerHeight / 2 + r.height / 2;
+    window.scrollTo({ top: Math.max(0, y), behavior: reduce ? 'auto' : 'smooth' });
+  }
+  function hop(t, then) {
+    if (!t) { then && then(); return; }
+    here = t; busy = true; bubble.classList.add('away');
+    function go() {
+      var to = spot(t), from = cur;
+      if (reduce || guide.hidden || !guide.dataset.placed) { guide.dataset.placed = '1'; setPos(to); arrive(); return; }
+      var dx = to.x - from.x, dy = to.y - from.y, lift = Math.min(160, 60 + Math.abs(dx) * 0.15);
+      sprite.classList.add('jumping');
+      var a = guide.animate([
+        { transform: 'translate(' + from.x + 'px,' + from.y + 'px)' },
+        { transform: 'translate(' + (from.x + dx * 0.5) + 'px,' + (Math.min(from.y, to.y) - lift) + 'px)', offset: 0.5 },
+        { transform: 'translate(' + to.x + 'px,' + to.y + 'px)' }
+      ], { duration: 650, easing: 'cubic-bezier(.4,0,.3,1)' });
+      a.onfinish = function () { setPos(to); sprite.classList.remove('jumping'); sprite.classList.add('land'); setTimeout(function () { sprite.classList.remove('land'); }, 220); arrive(); };
+    }
+    function arrive() { busy = false; placeBubble(); bubble.classList.remove('away'); then && then(); }
+    if (!inView(t)) { scrollTo(t); setTimeout(go, reduce ? 0 : 500); }
+    else go();
+  }
+  function stop(t, text, opts) { hop(t, function () { choices.innerHTML = ''; typeText(text); (opts || []).forEach(function (o) { choice(o[0], o[1], o[2]); }); }); }
+  function celebrate() {
+    if (reduce || guide.hidden) return;
+    sprite.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-34px) rotate(-8deg)' }, { transform: 'translateY(0)' }, { transform: 'translateY(-18px) rotate(8deg)' }, { transform: 'translateY(0)' }], { duration: 700, easing: 'ease-out' });
+  }
+
+  function goRead() { S.guide.mode = 'read'; S.guide.seen = true; save(); track('mode_switch', { to: 'read' }); location.href = '/notes/'; }
+  function goPlay() { S.guide.mode = 'play'; S.guide.seen = true; save(); hideGuide(true); play(nextLevel()); }
+  var tour = [
+    function () { stop(nodeOf('0'), 'Each tile is a one-minute level. Start here. Every level teaches one idea about building AI products.', [['Next', '', nextTour], ['Skip tour', 'ghost', endTour]]); },
+    function () { stop(nodeOf('2'), 'In this one you test an AI\'s answers against answers a person signed off. It\'s how real AI products get checked.', [['Next', '', nextTour], ['Skip tour', 'ghost', endTour]]); },
+    function () { stop(nodeOf('side'), 'This optional side quest comes from a real project Gayatri worked on.', [['Next', '', nextTour], ['Skip tour', 'ghost', endTour]]); },
+    function () { stop(nodeOf('boss'), 'Clear the levels to unlock co-op mode: working with Gayatri on your own idea, as a team.', [['Next', '', nextTour], ['Skip tour', 'ghost', endTour]]); },
+    function () { stop($('.read-instead'), 'Every level is also a post. If you\'d rather read, the notes and how to work with Gayatri are always one click away.', [['Play the quest', '', goPlay], ['Just read', 'ghost', goRead]]); }
+  ];
+  var tourAt = 0;
+  function nextTour() { tourAt++; if (tour[tourAt]) tour[tourAt](); else endTour(); }
+  function startTour() { track('tour_started'); S.guide.seen = true; save(); tourAt = 0; tour[0](); }
+  function endTour() { S.guide.seen = true; save(); script(); }
+
   function script() {
-    choices.innerHTML = '';
     var nx = nextLevel(), name = WORLD ? WORLD.name : '';
     if (!S.guide.seen) {
-      typeText("Hi, I'm Mo, Gayatri's quest guide. This site is a little game: four one-minute levels that teach how she builds AI products. This week's world is " + name + '. ' + (MOOD.mult > 1 ? MOOD.hi + ' ' : '') + 'Want to play, or just read?');
-      choice('Play the quest', '', goPlay); choice('Just read', 'ghost', goRead); choice('Classic mode', 'ghost', function () { S.guide.seen = true; setMode(true); });
-    } else if (newWeek && S.lastWeek) {
-      typeText('Welcome back! New week, new world: ' + name + '. The levels are fresh. Your lifetime XP and streak are safe.' + (MOOD.mult > 1 ? ' ' + MOOD.hi : ''));
-      choice('Play this week', '', goPlay); choice('Just read', 'ghost', goRead);
+      stop(nodeOf('0'), "Hi, I'm Mo! You play a product manager: the person who decides what gets built. This week's product: " + name + '. ' + (MOOD.mult > 1 ? MOOD.hi + ' ' : '') + 'Want a quick tour?',
+        [['Show me around', '', startTour], ['Play now', 'ghost', goPlay], ['Just read', 'ghost', goRead], ['Classic mode', 'ghost', function () { S.guide.seen = true; setMode(true); }]]);
+    } else if (newWeek && S.lastWeek && !S.weekGreeted) {
+      S.weekGreeted = WEEK; save();
+      stop(nodeOf(nx), 'Welcome back! New week, new product: ' + name + '. The levels are fresh. Your lifetime XP and streak are safe.' + (MOOD.mult > 1 ? ' ' + MOOD.hi : ''), [['Play this week', '', goPlay], ['Just read', 'ghost', goRead]]);
     } else if (nx !== 'boss') {
-      typeText((MOOD.hi ? MOOD.hi + ' ' : '') + (S.done[0] ? 'Next up: level ' + nx + '. It takes about a minute.' : 'Ready when you are. Level one takes about a minute.'));
-      choice(S.done[0] ? 'Continue' : 'Play', '', goPlay); choice('Just read', 'ghost', goRead);
+      var lbl = { '0': 'the first level', '1': 'level 1', '2': 'level 2', '3': 'level 3' }[nx];
+      stop(nodeOf(nx), (MOOD.hi ? MOOD.hi + ' ' : '') + 'Next up: ' + lbl + '. It takes about a minute.', [[S.done[0] ? 'Continue' : 'Play', '', goPlay], ['Show me around', 'ghost', startTour], ['Just read', 'ghost', goRead]]);
     } else {
-      typeText("You cleared this week's quest. A new world arrives next week. Meanwhile, read the notes or meet the boss.");
-      choice('Read notes', 'ghost', goRead); choice('Work with Gayatri', '', function () { location.href = '/work/'; });
+      stop(nodeOf('boss'), "You cleared this week's quest! A new product arrives next week. Co-op mode is open: build your own idea with Gayatri. Or read the notes.", [['Work with Gayatri', '', function () { location.href = '/work/'; }], ['Read notes', 'ghost', goRead]]);
     }
   }
-  function showGuide() { if (!guide || S.classic || !overlay.hidden) return; guide.hidden = false; moBtn.hidden = true; script(); }
+  function showGuide(fresh) {
+    if (!guide || S.classic || !overlay.hidden) return;
+    var was = guide.hidden; guide.hidden = false; moBtn.hidden = true;
+    if (was) { guide.dataset.placed = ''; }
+    script();
+    if (fresh) setTimeout(celebrate, reduce ? 0 : 700);
+  }
   function hideGuide(quiet) { if (!guide) return; guide.hidden = true; if (typing) { clearInterval(typing); typing = null; } moBtn.hidden = !!S.classic; if (!quiet) moBtn.focus({ preventScroll: true }); }
   $('#guide-hide').addEventListener('click', function () { S.guide.seen = true; save(); hideGuide(); });
-  moBtn.addEventListener('click', showGuide);
+  moBtn.addEventListener('click', function () { showGuide(); });
+  window.addEventListener('resize', function () { if (!guide.hidden && here && !busy) { setPos(spot(here)); placeBubble(); } });
+  /* Mo cheers and hops on when a level is cleared */
+  var lastDone = Object.keys(S.done).length;
+  close = function () {
+    overlay.hidden = true; renderMap(); if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+    if (S.classic) return;
+    var n = Object.keys(S.done).length, fresh = n > lastDone; lastDone = n;
+    setTimeout(function () { showGuide(fresh); }, 320);
+  };
 
   /* deep link from a post: /#play-2 */
   var h = (location.hash || '').replace('#play-', '');
   if (location.hash.indexOf('#play-') === 0 && games[h] && unlocked(h)) { play(h); }
   else if (!S.classic) {
     if (S.guide.seen && S.guide.mode === 'read' && !newWeek) { guide.hidden = true; moBtn.hidden = false; }
-    else setTimeout(showGuide, reduce ? 0 : 500);
+    else setTimeout(function () { showGuide(); }, reduce ? 0 : 600);
   } else { guide.hidden = true; moBtn.hidden = true; }
 })();

@@ -16,12 +16,12 @@ window.QUESTS = {
       lesson: 'When building is cheap, building the wrong thing is cheap too. Product fundamentals become the job.'
     },
     {
-      q: 'A founder shows you an AI app they built over a weekend. It looks polished. What is the most useful first question to ask them?',
+      q: 'You\'re a product manager. A founder shows you an AI app they built over a weekend. It looks polished. What is the most useful first question to ask them?',
       options: [['Which tools did you build it with?', false], ['Who is this for, and what do they do today without it?', true], ['Can we add more features?', false]],
       lesson: 'A quick prototype proves something can be built. It doesn\'t prove anyone needs it.'
     },
     {
-      q: 'You have an idea for a new AI product. When is the best time to write the detailed product plan?',
+      q: 'As the product manager, you have an idea for a new AI product. When is the best time to write the detailed product plan?',
       options: [['Before anything is built', false], ['After a quick, rough test of the riskiest AI part', true], ['After launch', false]],
       lesson: 'Test the risky part first with something small and rough. Then the plan records decisions instead of guesses.'
     }
@@ -30,7 +30,7 @@ window.QUESTS = {
   worlds: [
     {
       id: 'clinic',
-      name: 'Clinic intake',
+      name: 'An AI check-in assistant for a clinic',
       scene: 'A busy clinic wants AI to help with patient check-in.',
       desk: {
         brief: 'You spend a morning at the clinic\'s front desk, watching how staff check patients in. Three of the things below are hacks: things staff do because their tools don\'t do the job. Tap the 3 hacks.',
@@ -68,7 +68,7 @@ window.QUESTS = {
 
     {
       id: 'loans',
-      name: 'Loan file review',
+      name: 'An AI that rates loan risk for a lender',
       scene: 'A lender uses AI to rate the risk of loan files, the way a human reviewer would. The team updates the AI every couple of weeks.',
       desk: {
         brief: 'You spend an afternoon with a loan reviewer, watching how they check the AI\'s ratings. Three of the things below are hacks: things they do because their tools don\'t do the job. Tap the 3 hacks.',
@@ -106,10 +106,10 @@ window.QUESTS = {
 
     {
       id: 'support',
-      name: 'Support inbox',
-      scene: 'An online shop wants AI to help its support team reply to customers.',
+      name: 'An AI that drafts replies for an online shop',
+      scene: 'An online shop wants AI to help its customer support team reply to emails.',
       desk: {
-        brief: 'You watch a support agent during a busy hour. Three of the things below are hacks: things they do because their tools don\'t do the job. Tap the 3 hacks.',
+        brief: 'You sit next to Priya, who answers customer emails for the shop, during a busy hour. Three of the things below are hacks: things she does because her tools don\'t do the job. Tap the 3 hacks.',
         things: [
           { label: 'A document of copy-paste replies', hit: true, why: 'A hack: the answers live in a doc, not in the support tool.' },
           { label: 'The support inbox', hit: false, why: 'Not a hack: this is the official tool.' },
@@ -120,7 +120,7 @@ window.QUESTS = {
         ],
         pain: {
           q: 'The shop\'s founder asked you for "an AI that answers tickets". Based on what you saw, what is the real problem to solve?',
-          options: [['Agents type too slowly', false], ['Finding the facts about one customer takes longer than writing the reply', true], ['Customers want emojis', false]]
+          options: [['The support team types too slowly', false], ['Finding the facts about one customer takes longer than writing the reply', true], ['Customers want emojis', false]]
         },
         lesson: 'Watching the real work shows where AI saves time. Here it is gathering the facts, not typing the reply.'
       },
@@ -136,8 +136,8 @@ window.QUESTS = {
         ]
       },
       mvp: {
-        brief: 'You\'re planning the first version of the shop\'s AI reply drafts. The engineers have time for only three features. Pick the three that make agents trust the drafts.',
-        feats: [['Pull the customer\'s real order details into the draft', true], ['An animated mascot', false], ['Pass the message to a person when the AI is unsure', true], ['A leaderboard for agents', false], ['Block any draft that promises a refund', true], ['Custom fonts', false]],
+        brief: 'You\'re planning the first version of the shop\'s AI reply drafts. The engineers have time for only three features. Pick the three that make the support team trust the drafts.',
+        feats: [['Pull the customer\'s real order details into the draft', true], ['An animated mascot', false], ['Pass the message to a person when the AI is unsure', true], ['A leaderboard for the support team', false], ['Block any draft that promises a refund', true], ['Custom fonts', false]],
         lesson: 'Trust comes from using real facts and knowing when to stop. Everything else can wait.'
       }
     }

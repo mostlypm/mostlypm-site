@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="classic" data-fixed-mode="classic">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -13,30 +13,48 @@
 <script>(function(){var d=new Date(),t=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),c=d.getDay()===1;try{var s=JSON.parse(localStorage.getItem('mpm-quest-v2')||'null');if(s&&s.modeDay===t)c=!!s.classic}catch(e){}if(c)document.documentElement.classList.add('classic')})()</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/game.css?v=1018d">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/game.css?v=1018x">
 </head>
 <body>
 <header class="hud">
   <div class="g"><div class="in hud-in">
     <a class="logo" href="/">mostly<span>pm</span></a>
-    <nav class="hud-nav" aria-label="Main"><a href="/" data-quest-link>Quest</a><a href="/notes/">Notes</a><a href="/work/" aria-current="page">Work with me</a></nav>
+    <nav class="hud-nav" aria-label="Main"><a href="/" class="nav-home">Home</a><a href="/" data-quest-link>Quest</a><a href="/notes/">Notes</a><a href="/work/" aria-current="page">Work with me</a></nav>
     <div class="stats game-only">
       <div class="xp"><span>Week XP</span><span class="xpbar" aria-hidden="true"><i id="xpfill"></i></span><span id="xptext">0 / 1050</span></div>
       <div class="badges" aria-label="Levels cleared this week"><span class="badges-k">Cleared</span><span class="badge" id="b-u" title="Level 1: Understand">1</span><span class="badge" id="b-p" title="Level 2: Prove">2</span><span class="badge" id="b-s" title="Level 3: Shape and ship">3</span><span class="badge wide" id="b-d" title="Side quest">Side</span></div>
     </div>
-    <button class="mode-btn" type="button" data-mode-toggle>Classic mode</button>
+    <a class="mode-btn" href="/#play" data-play-game>Play the quest</a>
   </div></div>
 </header>
 
 <main class="g"><div class="in">
   <section class="boss-hero">
     <div>
-      <p class="px game-only" style="color:var(--coin);font-size:13px;margin:0">Boss level · your idea</p>
-      <h1>Your PM partner for 0 → 1.</h1>
-      <p>I'm Gayatri, a PM with 10+ years in enterprise software. I turn early-stage ideas into a Product Blueprint, a working UI with seed data, and evals for every AI feature. Then I stay through the build. Part-time and remote, from India (IST).</p>
+      <p class="px game-only" style="color:var(--coin);font-size:13px;margin:0">Co-op mode · build your idea together</p>
+      <h1>Your PM partner for <span class="nw">0 → 1.</span></h1>
+      <p class="about-lead">I'm Gayatri, a product manager with 10+ years in enterprise software.</p>
+      <p>Most of my recent work is with teams putting AI into serious workflows: financial services, document review, data-heavy operations. People there need to trust the output before they act on it. On these projects I've done the whole range: turning a BRD and milestone plans into something buildable, prototyping the screens myself, auditing what the system actually stores against what the spec says, and building eval harnesses so "it looks fine" becomes a number anyone on the team can check.</p>
+      <p>I work with AI coding agents every day, and that changes what a PM can deliver. I don't hand over a document and wait. I bring a working prototype, a test set and a baseline report.</p>
+      <p>Through mostlypm, I offer this as focused engagements: a few weeks, a clear deliverable, and a team that can keep using it after I leave. Part-time and remote, from India (IST).</p>
     </div>
-    <div class="game-only" style="justify-self:center"><span data-mo style="display:block;width:160px;height:160px"></span></div>
+    <aside class="proof-card" aria-label="Recent work">
+      <a class="proof-shot" href="/notes/ai-feature-eval-harness/">
+        <img src="/assets/notes/eval-harness/02-run-result.png" width="800" height="465" alt="An eval run result: 20 checks against the golden set, 14 passed, 2 warnings, 4 failed, with the reason for each failure.">
+      </a>
+      <div class="proof-body">
+        <div class="k">Recent work</div>
+        <p class="proof-t">An eval harness for five AI features on a mortgage due-diligence platform. Every release is checked against real cases before it ships.</p>
+        <div class="k">What you walk away with</div>
+        <ul class="proof-list">
+          <li><b>A working prototype</b> you can click, not just a spec</li>
+          <li><b>A test set</b> built from your real use cases</li>
+          <li><b>A baseline report</b>: where the AI stands today and what to fix first</li>
+        </ul>
+        <a class="proof-link" href="/notes/ai-feature-eval-harness/">Read the case study →</a>
+      </div>
+    </aside>
   </section>
 
   <section style="padding-bottom:24px">
@@ -59,11 +77,23 @@
         <ul><li>Backlog and acceptance criteria</li><li>Eval runs on every release</li><li>UAT and release readiness</li></ul>
       </button>
     </div>
-    <div class="callbar">
-      <span class="sel">Selected: <b id="kit-name">Idea-to-Working-UI Sprint</b></span>
-      <a class="btn" href="TODO-booking-link">Book a 20-min intro call</a>
-      <span class="contact-line">or email TODO-email</span>
-    </div>
+    <!-- Intro-call requests. Set data-endpoint to your Formspree form URL (https://formspree.io/f/...) so messages arrive in your inbox.
+         While data-endpoint is empty, the form opens the visitor's email app instead, addressed to data-email. -->
+    <form class="callbar book-form" id="book-form" data-email="hello@mostlypm.com" data-endpoint="" novalidate>
+      <div class="bf-head">
+        <h3>Book a 20-minute intro call</h3>
+        <span class="sel">Selected: <b id="kit-name">Idea-to-Working-UI Sprint</b> <span class="bf-hint">(tap an offer above to change)</span></span>
+      </div>
+      <label class="bf-field"><span>Your name</span><input name="name" id="bf-name" required autocomplete="name"></label>
+      <label class="bf-field"><span>Your email</span><input name="email" id="bf-email" type="email" required autocomplete="email"></label>
+      <label class="bf-field full"><span>What are you building?</span><textarea name="message" id="bf-msg" rows="4" required placeholder="The idea in a sentence or two, where it is today (idea, prototype or live), and good times for a call with your time zone."></textarea></label>
+      <input class="bf-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="bf-actions full">
+        <button class="btn" type="submit" id="bf-send">Send request</button>
+        <span class="contact-line">or email <span id="contact-email">hello@mostlypm.com</span> <button class="copy-btn" id="copy-email" type="button">Copy</button></span>
+      </div>
+      <p class="bf-status full" id="bf-status" aria-live="polite"></p>
+    </form>
   </section>
 
   <section class="sec">
@@ -78,15 +108,58 @@
   <footer class="foot"><span>mostlypm · Mostly PM thinking. Fully working product.</span><span>© 2026 Gayatri</span></footer>
 </div></main>
 
-<script src="/assets/quests.js?v=1018d"></script>
-<script src="/assets/game.js?v=1018d"></script>
+<script src="/assets/quests.js?v=1018x"></script>
+<script src="/assets/game.js?v=1018x"></script>
 <script>
 (function () {
   var kits = Array.prototype.slice.call(document.querySelectorAll('.kit')), name = document.getElementById('kit-name');
+  var form = document.getElementById('book-form'), email = form.getAttribute('data-email');
+  var shown = document.getElementById('contact-email'), copy = document.getElementById('copy-email');
+  var status = document.getElementById('bf-status'), send = document.getElementById('bf-send');
+  shown.textContent = email;
+  function say(text, kind) { status.textContent = text; status.className = 'bf-status full' + (kind ? ' ' + kind : ''); }
+  function track(n, p) { if (window.mpmTrack) window.mpmTrack(n, p || {}); }
   kits.forEach(function (k) { k.addEventListener('click', function () {
     kits.forEach(function (x) { x.setAttribute('aria-pressed', String(x === k)); });
     name.textContent = k.getAttribute('data-kit');
   }); });
+  copy.addEventListener('click', function () {
+    function done() { say('Email address copied.', 'ok'); }
+    function select() { var r = document.createRange(); r.selectNodeContents(shown); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); say('Press Cmd+C (or Ctrl+C) to copy.'); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(email).then(done, select); else select();
+  });
+  form.addEventListener('input', function () { if (/err/.test(status.className)) say(''); });
+  form.addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var f = { name: form.name.value.trim(), email: form.email.value.trim(), message: form.message.value.trim() };
+    form.name.value = f.name; form.email.value = f.email; form.message.value = f.message;
+    if (!form.checkValidity()) {
+      var bad = form.querySelector(':invalid'); bad.focus();
+      say(bad.type === 'email' && bad.value ? 'Please check your email address.' : 'Please fill in your name, email and what you\'re building.', 'err');
+      return;
+    }
+    if (form._gotcha.value) return;
+    var kit = name.textContent, subject = 'Intro call: ' + kit, endpoint = form.getAttribute('data-endpoint');
+    if (!endpoint) {
+      var body = 'Hi Gayatri,\n\nI\'m interested in the ' + kit + '.\n\n' + f.message + '\n\n' + f.name + '\n' + f.email + '\n';
+      location.href = 'mailto:' + email + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      say('Your email app should open with your message ready to send. If nothing opens, email ' + email + '.');
+      track('book_request', { offer: kit, via: 'mailto' });
+      return;
+    }
+    var data = new FormData(form); data.append('offer', kit); data.append('_subject', subject);
+    send.disabled = true; send.textContent = 'Sending…'; say('');
+    fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); })
+      .then(function () {
+        track('book_request', { offer: kit, via: 'form' });
+        form.innerHTML = '<div class="bf-done full"><h3>Thanks, ' + f.name.replace(/[<>&"]/g, '') + '. Your request is in.</h3><p>Gayatri will reply to ' + f.email.replace(/[<>&"]/g, '') + ' within two working days to set up the call.</p></div>';
+      })
+      .catch(function () {
+        send.disabled = false; send.textContent = 'Send request';
+        say('Sorry, that didn\'t go through. Please try again, or email ' + email + '.', 'err');
+      });
+  });
 })();
 </script>
 </body>

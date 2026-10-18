@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="classic" data-fixed-mode="classic">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -14,19 +14,19 @@
 <script>(function(){var d=new Date(),t=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),c=d.getDay()===1;try{var s=JSON.parse(localStorage.getItem('mpm-quest-v2')||'null');if(s&&s.modeDay===t)c=!!s.classic}catch(e){}if(c)document.documentElement.classList.add('classic')})()</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/game.css?v=1018d">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/game.css?v=1018x">
 </head>
 <body>
 <header class="hud">
   <div class="g"><div class="in hud-in">
     <a class="logo" href="/">mostly<span>pm</span></a>
-    <nav class="hud-nav" aria-label="Main"><a href="/" data-quest-link>Quest</a><a href="/notes/">Notes</a><a href="/work/">Work with me</a></nav>
+    <nav class="hud-nav" aria-label="Main"><a href="/" class="nav-home">Home</a><a href="/" data-quest-link>Quest</a><a href="/notes/">Notes</a><a href="/work/">Work with me</a></nav>
     <div class="stats game-only">
       <div class="xp"><span>Week XP</span><span class="xpbar" aria-hidden="true"><i id="xpfill"></i></span><span id="xptext">0 / 1050</span></div>
       <div class="badges" aria-label="Levels cleared this week"><span class="badges-k">Cleared</span><span class="badge" id="b-u" title="Level 1: Understand">1</span><span class="badge" id="b-p" title="Level 2: Prove">2</span><span class="badge" id="b-s" title="Level 3: Shape and ship">3</span><span class="badge wide" id="b-d" title="Side quest">Side</span></div>
     </div>
-    <button class="mode-btn" type="button" data-mode-toggle>Classic mode</button>
+    <a class="mode-btn" href="/#play" data-play-game>Play the quest</a>
   </div></div>
 </header>
 <main class="g"><div class="in">
@@ -38,7 +38,7 @@
       <p class="dek">In an AI product, the riskiest question is rarely &quot;can we build the screens?&quot; It&#x27;s &quot;is the AI good enough to be useful?&quot;</p>
       <div class="meta"><span>Gayatri</span><span>2026-10-18</span></div>
     </header>
-    <div class="play-banner game-only"><span>Level 2 of this week's quest is based on this post.</span><a class="btn sm" data-level-link="2" href="/">Play it · 1 min</a></div>
+    <div class="play-banner"><span>Level 2 of this week's quest is based on this post.</span><a class="btn sm" data-level-link="2" href="/">Play it · 1 min</a></div>
     <div class="paper">
 <p>Phase 1 gave us an intent note and a core AI flow we believe in. Phase 2 tests that belief as cheaply as possible, then writes down what we learned.</p>
 <p>This is the part of my workflow that surprises people most: I build <em>before</em> I write the product doc.</p>
@@ -100,11 +100,16 @@
 <li>A POC is disposable by design. If it starts accumulating features, it&rsquo;s no longer a POC. Stop and write the Blueprint.</li>
 </ul>
     </div>
+    <aside class="author-box" aria-label="About the author">
+      <div class="k">About the author</div>
+      <p>I'm Gayatri, a product manager in enterprise software. Right now I'm leading product on an AI-powered due-diligence platform in financial services, where I write the requirements, prototype the screens, and build the quality checks that tell us whether the AI is getting better or worse. I work hands-on with AI coding agents, so the gap between "here's the spec" and "here's a working version you can test" is days, not quarters.</p>
+      <a href="/work/">Work with me →</a>
+    </aside>
     <a class="next-link" href="/notes/shape-and-ship/">Next: Shape &amp; ship: making it real →</a><aside class="series" aria-label="Series"><div class="k">The new PM workflow · series</div><ol><li><a href="/notes/when-building-is-cheap/">The Product Blueprint: when building is cheap, fundamentals are everything</a></li><li><a href="/notes/understand/">Understand: finding the DNA of an idea</a></li><li class="here">Prove: test the risky part first</li><li><a href="/notes/shape-and-ship/">Shape &amp; ship: making it real</a></li></ol></aside>
   </article>
   <footer class="foot"><span>mostlypm · Mostly PM thinking. Fully working product.</span><span>© 2026 Gayatri</span></footer>
 </div></main>
-<script src="/assets/quests.js?v=1018d"></script>
-<script src="/assets/game.js?v=1018d"></script>
+<script src="/assets/quests.js?v=1018x"></script>
+<script src="/assets/game.js?v=1018x"></script>
 </body>
 </html>

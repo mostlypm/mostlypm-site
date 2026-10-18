@@ -24,7 +24,7 @@ SITE_URL = "https://mostlypm.com"
 LEVEL_NAME = {"0": "Start", "1": "Level 1", "2": "Level 2", "3": "Level 3", "side": "Side quest"}
 
 HEAD = """<!doctype html>
-<html lang="en">
+<html lang="en" class="classic" data-fixed-mode="classic">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -39,19 +39,19 @@ HEAD = """<!doctype html>
 <script>(function(){{var d=new Date(),t=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),c=d.getDay()===1;try{{var s=JSON.parse(localStorage.getItem('mpm-quest-v2')||'null');if(s&&s.modeDay===t)c=!!s.classic}}catch(e){{}}if(c)document.documentElement.classList.add('classic')}})()</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/game.css?v=1018d">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/game.css?v=1018x">
 </head>
 <body>
 <header class="hud">
   <div class="g"><div class="in hud-in">
     <a class="logo" href="/">mostly<span>pm</span></a>
-    <nav class="hud-nav" aria-label="Main"><a href="/" data-quest-link>Quest</a><a href="/notes/"{notes_current}>Notes</a><a href="/work/">Work with me</a></nav>
+    <nav class="hud-nav" aria-label="Main"><a href="/" class="nav-home">Home</a><a href="/" data-quest-link>Quest</a><a href="/notes/"{notes_current}>Notes</a><a href="/work/">Work with me</a></nav>
     <div class="stats game-only">
       <div class="xp"><span>Week XP</span><span class="xpbar" aria-hidden="true"><i id="xpfill"></i></span><span id="xptext">0 / 1050</span></div>
       <div class="badges" aria-label="Levels cleared this week"><span class="badges-k">Cleared</span><span class="badge" id="b-u" title="Level 1: Understand">1</span><span class="badge" id="b-p" title="Level 2: Prove">2</span><span class="badge" id="b-s" title="Level 3: Shape and ship">3</span><span class="badge wide" id="b-d" title="Side quest">Side</span></div>
     </div>
-    <button class="mode-btn" type="button" data-mode-toggle>Classic mode</button>
+    <a class="mode-btn" href="/#play" data-play-game>Play the quest</a>
   </div></div>
 </header>
 <main class="g"><div class="in">
@@ -59,8 +59,8 @@ HEAD = """<!doctype html>
 
 FOOT = """  <footer class="foot"><span>mostlypm · Mostly PM thinking. Fully working product.</span><span>© 2026 Gayatri</span></footer>
 </div></main>
-<script src="/assets/quests.js?v=1018d"></script>
-<script src="/assets/game.js?v=1018d"></script>
+<script src="/assets/quests.js?v=1018x"></script>
+<script src="/assets/game.js?v=1018x"></script>
 </body>
 </html>
 """
@@ -102,7 +102,7 @@ def post_page(post, posts):
     play = ""
     if post["level"] in LEVEL_NAME:
         label = "This week's side quest is based on this post." if post["level"] == "side" else f'{LEVEL_NAME[post["level"]]} of this week\'s quest is based on this post.'
-        play = (f'<div class="play-banner game-only"><span>{label}</span>'
+        play = (f'<div class="play-banner"><span>{label}</span>'
                 f'<a class="btn sm" data-level-link="{post["level"]}" href="/">Play it · 1 min</a></div>')
     nav = ""
     if post["kind"] == "series":
@@ -130,6 +130,11 @@ def post_page(post, posts):
     <div class="paper">
 {post['body']}
     </div>
+    <aside class="author-box" aria-label="About the author">
+      <div class="k">About the author</div>
+      <p>I'm Gayatri, a product manager in enterprise software. Right now I'm leading product on an AI-powered due-diligence platform in financial services, where I write the requirements, prototype the screens, and build the quality checks that tell us whether the AI is getting better or worse. I work hands-on with AI coding agents, so the gap between "here's the spec" and "here's a working version you can test" is days, not quarters.</p>
+      <a href="/work/">Work with me →</a>
+    </aside>
     {nav}
   </article>
 """

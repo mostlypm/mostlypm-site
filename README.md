@@ -7,18 +7,18 @@ A plain static site: HTML, one CSS file and two small scripts. No framework, not
 
 ## How the site behaves
 
-- **Quest (home page):** a level map. Start → Understand → Prove → Shape & ship → Boss, plus an optional side quest. Each level is a one-minute mini-game that teaches one post, and every post can also be read directly.
+- **Quest (home page):** a level map. Start → Understand → Prove → Shape & ship → Co-op mode, plus an optional side quest. Each level is a one-minute mini-game that teaches one post, and every post can also be read directly.
 - **Mo, the guide:** greets visitors and offers *Play the quest*, *Just read* or *Classic mode*. Returning visitors get a greeting that matches their progress.
 - **A new quest every week:** each ISO week picks one product world (Clinic intake, Loan file review, Support inbox) and shuffles the cases and questions. Everyone sees the same quest that week. Lifetime XP, badges and the weekly streak carry over; the levels reset.
-- **Mood of the day:** Focus Monday opens in classic mode, Friday is Double XP, weekends are relaxed. A visitor's own switch holds for the rest of that day.
-- **Classic mode:** a calm, light reading layout with no game. Toggle in the top bar on every page.
+- **Landing:** first-time visitors land on classic mode. Anyone who chooses the game (Play the quest) lands in the game on later visits, until they switch back to classic. **Mood of the day** in the game: Friday is Double XP, weekends are relaxed.
+- **Game mode is only the quest** (home page map, Mo, levels). **Notes, posts and Work with me are always classic** (calm reading layout). They link into the game with a "Play the quest" button and "Play it" banners on posts. The home page also has a classic version (hero, How I work, notes), switched with the Classic/Game mode button.
 - Progress is stored only in the visitor's browser (localStorage).
 
 ## Structure
 
 ```
 index.html                 Quest home page (the quest log between <!-- POSTS --> markers is generated)
-work/index.html            Work with me (the "boss level": offers and booking)
+work/index.html            Work with me ("co-op mode": offers and booking)
 assets/game.css            All styles, game and classic
 assets/game.js             Game engine: weekly rotation, moods, guide, mini-games, XP
 assets/quests.js           Game content: worlds, eval cases, questions  <- edit this to keep it fresh
@@ -70,7 +70,10 @@ Any static host works: Cloudflare Pages, Netlify or Vercel. Import this repo, fr
 
 ## Still to fill in
 
-Search for `TODO` in `work/index.html`: booking link and contact email.
+**Intro-call form (Work with me page).** Visitors fill in their name, email and what they're building.
+1. Create a free form at formspree.io, with your inbox as the address it sends to.
+2. Paste the form URL (`https://formspree.io/f/...`) into `data-endpoint` on `#book-form` in `work/index.html`.
+Until then the form still works: it opens the visitor's email app with the message ready, addressed to `data-email` (hello@mostlypm.com). So also set up that mailbox, or a forward, where the domain is registered.
 
 ## House rules for posts
 
