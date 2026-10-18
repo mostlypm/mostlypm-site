@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shape &amp; ship: making it real · mostlypm</title>
+<meta name="description" content="The POC proved the AI can do the job. Now we build something a user would actually want to use, and an engineering team can actually build from.">
+<link rel="canonical" href="https://mostlypm.com/notes/shape-and-ship/">
+<meta property="og:title" content="Shape &amp; ship: making it real">
+<meta property="og:description" content="The POC proved the AI can do the job. Now we build something a user would actually want to use, and an engineering team can actually build from.">
+<meta property="og:url" content="https://mostlypm.com/notes/shape-and-ship/">
+<meta property="og:type" content="article">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var d=new Date(),t=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),c=d.getDay()===1;try{var s=JSON.parse(localStorage.getItem('mpm-quest-v2')||'null');if(s&&s.modeDay===t)c=!!s.classic}catch(e){}if(c)document.documentElement.classList.add('classic')})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/game.css?v=1018d">
+</head>
+<body>
+<header class="hud">
+  <div class="g"><div class="in hud-in">
+    <a class="logo" href="/">mostly<span>pm</span></a>
+    <nav class="hud-nav" aria-label="Main"><a href="/" data-quest-link>Quest</a><a href="/notes/">Notes</a><a href="/work/">Work with me</a></nav>
+    <div class="stats game-only">
+      <div class="xp"><span>Week XP</span><span class="xpbar" aria-hidden="true"><i id="xpfill"></i></span><span id="xptext">0 / 1050</span></div>
+      <div class="badges" aria-label="Levels cleared this week"><span class="badges-k">Cleared</span><span class="badge" id="b-u" title="Level 1: Understand">1</span><span class="badge" id="b-p" title="Level 2: Prove">2</span><span class="badge" id="b-s" title="Level 3: Shape and ship">3</span><span class="badge wide" id="b-d" title="Side quest">Side</span></div>
+    </div>
+    <button class="mode-btn" type="button" data-mode-toggle>Classic mode</button>
+  </div></div>
+</header>
+<main class="g"><div class="in">
+  <article class="read-wrap">
+    <a class="crumb" href="/notes/">← All notes</a>
+    <header class="read-head">
+      <div class="k">Series · Phase 3</div>
+      <h1>Shape &amp; ship: making it real</h1>
+      <p class="dek">The POC proved the AI can do the job. Now we build something a user would actually want to use, and an engineering team can actually build from.</p>
+      <div class="meta"><span>Gayatri</span><span>2026-10-18</span></div>
+    </header>
+    <div class="play-banner game-only"><span>Level 3 of this week's quest is based on this post.</span><a class="btn sm" data-level-link="3" href="/">Play it · 1 min</a></div>
+    <div class="paper">
+<p>Phase 3 turns the Blueprint into a working product. Not production code, but a working UI that behaves like the real thing, with evals that tell us when it&rsquo;s good enough.</p>
+<h2>Step 1: The working UI with seed data</h2>
+<p>This is the deliverable that replaces the traditional spec handoff. A working UI covers the full set of flows in the Blueprint, not just the AI core: navigation, empty states, errors, the screens around the AI that make it usable.</p>
+<p><strong>Why seed data matters.</strong> A UI full of &ldquo;Lorem ipsum&rdquo; and &ldquo;John Doe&rdquo; hides every real problem. With realistic seed data you see what happens when a name is 40 characters long, when a list has 300 items, when the AI summary runs to three paragraphs instead of three lines. I build the seed data from the personas and scenarios, so the product looks like it would on a real Tuesday for a real user.</p>
+<p><strong>Backend where it&rsquo;s needed.</strong> Most screens run on seed data. Where a flow only makes sense with a live system (the core AI calls, a key integration), I connect the backend so we&rsquo;re testing real behaviour, not a mock.</p>
+<p>The working UI does three jobs at once:</p>
+<ul>
+<li><strong>For users:</strong> something real to react to. Feedback on a clickable product is far more specific than feedback on wireframes.</li>
+<li><strong>For founders:</strong> something to show investors and early customers.</li>
+<li><strong>For engineers:</strong> an unambiguous reference. The question &ldquo;what did you mean by this?&rdquo; is answered by clicking it.</li>
+</ul>
+<h2>Step 2: The eval baseline</h2>
+<p>In Phase 2 we defined what &ldquo;good&rdquo; means and started the golden dataset. Now I build the eval harness and run a baseline.</p>
+<p>The harness is simple in principle: run every case in the golden dataset through the AI feature, score each output against the eval metrics from the Blueprint, and report the results. Some scoring is automatic (did it include the allergy?). Some needs a rubric and a judgment, from a person or another model.</p>
+<p>The baseline gives everyone a number to stand on. For example, &ldquo;the summary is pretty good&rdquo; becomes &ldquo;it gets 41 of 50 cases right, and all 9 failures are vague symptom descriptions&rdquo;. That second sentence tells the team exactly what to work on.</p>
+<figure>
+<div class="frame"><img loading="lazy" src="/assets/diagrams/eval-loop.svg" alt="The eval loop: golden dataset, AI feature, score against metrics, baseline report. Below the bar, fix the prompt or data and rerun the AI feature; when it clears the bar, it is ready to ship. User validation adds new failures to the golden dataset." width="760" height="272"></div>
+<figcaption>Failures found by users join the dataset, so the bar gets harder to fake with every round.</figcaption>
+</figure>
+
+<p>It also changes the conversation about shipping. Instead of arguing about whether the AI is ready, the team agrees on the bar in advance and checks against it on every change.</p>
+<h2>Step 3: User validation</h2>
+<p>With a working UI and a known quality level, I go back to users. This time it&rsquo;s a proper session: real scenarios, real tasks, watching where they hesitate.</p>
+<p>The questions now are different from Phase 2:</p>
+<ul>
+<li>Can they complete the job without help?</li>
+<li>Do they trust the AI output enough to act on it?</li>
+<li>What do they do when the AI is wrong, and does the product help them recover?</li>
+</ul>
+<p>What we learn goes back into the UI, the Blueprint and the golden dataset. Every new failure a user finds becomes a new eval case.</p>
+<h2>Step 4: Build support</h2>
+<p>This is where the traditional PM role usually picks back up, and where my work continues. While engineers build the production version, I stay alongside them:</p>
+<ul>
+<li>Turning the Blueprint and working UI into a prioritized backlog with clear acceptance criteria</li>
+<li>Running the evals on every significant change, so quality never quietly slips</li>
+<li>Answering questions fast, so nobody waits days for a decision</li>
+<li>Doing UAT and release readiness before anything ships</li>
+</ul>
+<h2>What I&rsquo;ve learned</h2>
+<ul>
+<li>A working UI ends arguments that documents start. When everyone can click the same thing, disagreements become specific.</li>
+<li>Evals are not a QA step at the end. They&rsquo;re a product decision about what &ldquo;good&rdquo; means, and they belong to the PM.</li>
+<li>The handoff is where most 0 → 1 products lose their shape. Staying through the build keeps the original intent intact.</li>
+</ul>
+<h2>Closing the series</h2>
+<p>When building is cheap, the differentiator isn&rsquo;t who can build. It&rsquo;s who knows what to build, for whom, and how to tell if it&rsquo;s working. That&rsquo;s still product management. The deliverable has simply changed from a document to a working product.</p>
+    </div>
+    <aside class="series" aria-label="Series"><div class="k">The new PM workflow · series</div><ol><li><a href="/notes/when-building-is-cheap/">The Product Blueprint: when building is cheap, fundamentals are everything</a></li><li><a href="/notes/understand/">Understand: finding the DNA of an idea</a></li><li><a href="/notes/prove/">Prove: test the risky part first</a></li><li class="here">Shape &amp; ship: making it real</li></ol></aside>
+  </article>
+  <footer class="foot"><span>mostlypm · Mostly PM thinking. Fully working product.</span><span>© 2026 Gayatri</span></footer>
+</div></main>
+<script src="/assets/quests.js?v=1018d"></script>
+<script src="/assets/game.js?v=1018d"></script>
+</body>
+</html>

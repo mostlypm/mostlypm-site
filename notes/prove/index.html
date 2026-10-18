@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prove: test the risky part first · mostlypm</title>
+<meta name="description" content="In an AI product, the riskiest question is rarely &quot;can we build the screens?&quot; It&#x27;s &quot;is the AI good enough to be useful?&quot;">
+<link rel="canonical" href="https://mostlypm.com/notes/prove/">
+<meta property="og:title" content="Prove: test the risky part first">
+<meta property="og:description" content="In an AI product, the riskiest question is rarely &quot;can we build the screens?&quot; It&#x27;s &quot;is the AI good enough to be useful?&quot;">
+<meta property="og:url" content="https://mostlypm.com/notes/prove/">
+<meta property="og:type" content="article">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var d=new Date(),t=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),c=d.getDay()===1;try{var s=JSON.parse(localStorage.getItem('mpm-quest-v2')||'null');if(s&&s.modeDay===t)c=!!s.classic}catch(e){}if(c)document.documentElement.classList.add('classic')})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/game.css?v=1018d">
+</head>
+<body>
+<header class="hud">
+  <div class="g"><div class="in hud-in">
+    <a class="logo" href="/">mostly<span>pm</span></a>
+    <nav class="hud-nav" aria-label="Main"><a href="/" data-quest-link>Quest</a><a href="/notes/">Notes</a><a href="/work/">Work with me</a></nav>
+    <div class="stats game-only">
+      <div class="xp"><span>Week XP</span><span class="xpbar" aria-hidden="true"><i id="xpfill"></i></span><span id="xptext">0 / 1050</span></div>
+      <div class="badges" aria-label="Levels cleared this week"><span class="badges-k">Cleared</span><span class="badge" id="b-u" title="Level 1: Understand">1</span><span class="badge" id="b-p" title="Level 2: Prove">2</span><span class="badge" id="b-s" title="Level 3: Shape and ship">3</span><span class="badge wide" id="b-d" title="Side quest">Side</span></div>
+    </div>
+    <button class="mode-btn" type="button" data-mode-toggle>Classic mode</button>
+  </div></div>
+</header>
+<main class="g"><div class="in">
+  <article class="read-wrap">
+    <a class="crumb" href="/notes/">← All notes</a>
+    <header class="read-head">
+      <div class="k">Series · Phase 2</div>
+      <h1>Prove: test the risky part first</h1>
+      <p class="dek">In an AI product, the riskiest question is rarely &quot;can we build the screens?&quot; It&#x27;s &quot;is the AI good enough to be useful?&quot;</p>
+      <div class="meta"><span>Gayatri</span><span>2026-10-18</span></div>
+    </header>
+    <div class="play-banner game-only"><span>Level 2 of this week's quest is based on this post.</span><a class="btn sm" data-level-link="2" href="/">Play it · 1 min</a></div>
+    <div class="paper">
+<p>Phase 1 gave us an intent note and a core AI flow we believe in. Phase 2 tests that belief as cheaply as possible, then writes down what we learned.</p>
+<p>This is the part of my workflow that surprises people most: I build <em>before</em> I write the product doc.</p>
+<figure>
+<div class="frame"><img loading="lazy" src="/assets/diagrams/prove.svg" alt="Core AI flow POC, then run 20 to 50 inputs, then a decision: good enough? If no, adjust prompt, data or scope and loop back to the POC. If yes, check with 3 to 5 users, then write the Product Blueprint. Every interesting case from the runs goes into the golden dataset, which feeds the Blueprint." width="760" height="288"></div>
+<figcaption>Anything the POC can't do well loops back before we write a word, and every interesting case lands in the golden dataset.</figcaption>
+</figure>
+
+<h2>Step 1: A POC of the core AI flows only</h2>
+<p>The POC has a deliberately narrow scope. It covers only the core flows where AI does the work, with just enough UI and backend to run them end to end. No settings, no onboarding, no polish.</p>
+<p>It exists to answer one question: <strong>does the AI do the job, and how good is it?</strong></p>
+<p>Take the clinic intake example. The core AI flow might be: a patient describes symptoms in their own words, and the system produces a structured intake summary for the doctor. The POC is a text box, a button, and the generated summary. That&rsquo;s it.</p>
+<p>Then I run it against real or realistic inputs. Not three happy-path examples. Twenty, thirty, fifty, including the messy ones: vague descriptions, mixed languages, missing information, things the AI should refuse or escalate.</p>
+<p>What I&rsquo;m looking for:</p>
+<ul>
+<li><strong>Where it&rsquo;s reliably good.</strong> These become the product&rsquo;s promise.</li>
+<li><strong>Where it fails, and how.</strong> A wrong answer stated confidently is very different from &ldquo;I&rsquo;m not sure, please check&rdquo;.</li>
+<li><strong>What &ldquo;good&rdquo; even means here.</strong> Often this is the first time anyone has had to define it. The founder says &ldquo;accurate&rdquo;. The doctor says &ldquo;short, and never misses an allergy&rdquo;. Those are different products.</li>
+</ul>
+<p>This is where the golden dataset begins. Every interesting input from the POC, with the answer we expected, goes into a list. It grows through the rest of the project.</p>
+<h2>Step 2: A quick check with real users</h2>
+<p>I put the POC in front of three to five real users from our primary persona. Not a usability test of the UI; the UI is ugly on purpose. I want to know:</p>
+<ul>
+<li>Would they trust this output?</li>
+<li>What would they do with it next?</li>
+<li>What&rsquo;s missing that they&rsquo;d need before acting on it?</li>
+</ul>
+<p>This step regularly changes the product. Users tell you which mistakes are tolerable and which are dealbreakers, which is exactly what the evals need to know.</p>
+<h2>Step 3: The Product Blueprint</h2>
+<p>Now I write the product doc, which I call the Product Blueprint. Because it comes after the POC and the user check, it records decisions instead of guesses. It reads as an argument, in four parts:</p>
+<p><strong>Why</strong></p>
+<ul>
+<li>Scope and the problem we&rsquo;re solving</li>
+<li>Research: what the workshop, signals and users told us</li>
+<li>Goals and non-goals (non-goals are as important as goals)</li>
+<li>North star: the one measure that says the product is working</li>
+</ul>
+<p><strong>Who</strong></p>
+<ul>
+<li>Personas</li>
+<li>User scenarios: real situations, written as short stories</li>
+</ul>
+<p><strong>What</strong></p>
+<ul>
+<li>Features</li>
+<li>AI features: for each, what it does, its inputs and outputs, and how it should behave when it&rsquo;s unsure</li>
+</ul>
+<p><strong>How we&rsquo;ll know</strong></p>
+<ul>
+<li>Feature metrics: adoption, completion, time saved</li>
+<li>The golden dataset: representative inputs with expected outputs, including edge cases and failure cases</li>
+<li>AI eval metrics: what we measure (accuracy, completeness, safety, tone), how we score it, and the bar for &ldquo;good enough to ship&rdquo;</li>
+</ul>
+<p>I also add a short section on <strong>risks and open questions</strong>. If I were the founder, it&rsquo;s the page I&rsquo;d want to read first.</p>
+<h2>What I&rsquo;ve learned</h2>
+<ul>
+<li>If you can&rsquo;t define &ldquo;good&rdquo; for an AI feature, you&rsquo;re not ready to build it. The POC forces that conversation early, when it&rsquo;s cheap.</li>
+<li>The golden dataset is the most valuable artifact in the whole project. Specs change; a good test set keeps paying off.</li>
+<li>A POC is disposable by design. If it starts accumulating features, it&rsquo;s no longer a POC. Stop and write the Blueprint.</li>
+</ul>
+    </div>
+    <a class="next-link" href="/notes/shape-and-ship/">Next: Shape &amp; ship: making it real →</a><aside class="series" aria-label="Series"><div class="k">The new PM workflow · series</div><ol><li><a href="/notes/when-building-is-cheap/">The Product Blueprint: when building is cheap, fundamentals are everything</a></li><li><a href="/notes/understand/">Understand: finding the DNA of an idea</a></li><li class="here">Prove: test the risky part first</li><li><a href="/notes/shape-and-ship/">Shape &amp; ship: making it real</a></li></ol></aside>
+  </article>
+  <footer class="foot"><span>mostlypm · Mostly PM thinking. Fully working product.</span><span>© 2026 Gayatri</span></footer>
+</div></main>
+<script src="/assets/quests.js?v=1018d"></script>
+<script src="/assets/game.js?v=1018d"></script>
+</body>
+</html>

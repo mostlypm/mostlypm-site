@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>mostlypm — a product quest by Gayatri</title>
+<meta name="description" content="Notes and one-minute games on building products in the AI-native era, by Gayatri, a PM partner for 0 → 1 products. A new quest every week.">
+<link rel="canonical" href="https://mostlypm.com/">
+<meta property="og:title" content="mostlypm — a product quest">
+<meta property="og:description" content="Four one-minute levels that teach how to turn an idea into a working AI product. A new world every week.">
+<meta property="og:url" content="https://mostlypm.com/">
+<meta property="og:type" content="website">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var d=new Date(),t=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),c=d.getDay()===1;try{var s=JSON.parse(localStorage.getItem('mpm-quest-v2')||'null');if(s&&s.modeDay===t)c=!!s.classic}catch(e){}if(c)document.documentElement.classList.add('classic')})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/game.css?v=1018d">
+</head>
+<body>
+<a class="skip-link" href="#log">Skip to the notes</a>
+
+<header class="hud">
+  <div class="g"><div class="in hud-in">
+    <a class="logo" href="/">mostly<span>pm</span></a>
+    <nav class="hud-nav" aria-label="Main"><a href="/" data-quest-link aria-current="page">Quest</a><a href="/notes/">Notes</a><a href="/work/">Work with me</a></nav>
+    <div class="stats game-only">
+      <div class="xp" aria-live="polite"><span>Week XP</span><span class="xpbar" aria-hidden="true"><i id="xpfill"></i></span><span id="xptext">0 / 1050</span></div>
+      <div class="badges" aria-label="Levels cleared this week"><span class="badges-k">Cleared</span><span class="badge" id="b-u" title="Level 1: Understand">1</span><span class="badge" id="b-p" title="Level 2: Prove">2</span><span class="badge" id="b-s" title="Level 3: Shape and ship">3</span><span class="badge wide" id="b-d" title="Side quest">Side</span></div>
+      <span class="streak" id="streak"></span>
+    </div>
+    <button class="mode-btn" type="button" data-mode-toggle>Classic mode</button>
+  </div></div>
+</header>
+
+<main class="g"><div class="in">
+
+  <section class="classic-only classic-intro">
+    <p class="day-note" data-mood-note hidden>It's Focus Monday, so the quest is resting. <button class="mode-btn" type="button" data-mode-toggle>Game mode</button></p>
+    <h1>Notes from a PM in the AI-native era.</h1>
+    <p>I'm Gayatri, a product manager with 10+ years in enterprise software. I write about AI, product fundamentals, and turning ideas into working products.</p>
+    <div class="row"><a href="#log">Read the notes ↓</a><a href="/work/">Work with me →</a></div>
+  </section>
+
+  <section class="title game-only">
+    <span class="week-pill"><b data-mood>Today</b> · <span id="week-label">This week</span> · world: <span id="world-name">loading</span></span>
+    <h1>Turn an idea into a working product.</h1>
+    <p class="lead">Four one-minute levels on how Gayatri builds products in the AI-native era. A new world every week.</p>
+  </section>
+
+  <section class="map game-only" aria-label="Level map">
+    <div class="track" aria-hidden="true"></div>
+    <div class="spur" aria-hidden="true"></div>
+    <div class="levels" id="levels">
+      <button class="lvl" data-l="0"><span class="node">▶</span><span class="nm">Start</span><span class="sub">The Product Blueprint</span><span class="st"></span></button>
+      <button class="lvl" data-l="1"><span class="node">1</span><span class="nm">Understand</span><span class="sub">Find the real problem</span><span class="st"></span></button>
+      <button class="lvl" data-l="2"><span class="node">2</span><span class="nm">Prove</span><span class="sub">Test the AI</span><span class="st"></span></button>
+      <button class="lvl" data-l="3"><span class="node">3</span><span class="nm">Shape &amp; ship</span><span class="sub">Plan the first version</span><span class="st"></span></button>
+      <button class="lvl boss" data-l="boss"><span class="node">★</span><span class="nm">Boss level</span><span class="sub">Your idea + Gayatri</span><span class="st"></span></button>
+      <button class="lvl side" data-l="side"><span class="node">?</span><span class="nm">Side quest</span><span class="sub">A real AI testing tool</span><span class="st"></span></button>
+    </div>
+  </section>
+
+  <section class="sec" id="log">
+    <h2><span class="game-only" style="display:inline">Quest log</span><span class="classic-only" style="display:inline">Notes</span></h2>
+    <p class="lead">Every level is also a post. No XP needed.</p>
+    <div class="log">
+<!-- POSTS -->
+      <a class="post" href="/notes/when-building-is-cheap/"><span class="k">Series · Intro</span><span class="t">The Product Blueprint: when building is cheap, fundamentals are everything</span><span class="s">Three posts on how I run 0 → 1 products now. One per phase: Understand, Prove, Shape &amp; ship.</span></a>
+      <a class="post" href="/notes/understand/"><span class="k">Series · Phase 1</span><span class="t">Understand: finding the DNA of an idea</span><span class="s">Before I build anything, I want to know what the idea is made of.</span></a>
+      <a class="post" href="/notes/prove/"><span class="k">Series · Phase 2</span><span class="t">Prove: test the risky part first</span><span class="s">In an AI product, the riskiest question is rarely &quot;can we build the screens?&quot; It&#x27;s &quot;is the AI good enough to be useful?&quot;</span></a>
+      <a class="post" href="/notes/shape-and-ship/"><span class="k">Series · Phase 3</span><span class="t">Shape &amp; ship: making it real</span><span class="s">The POC proved the AI can do the job. Now we build something a user would actually want to use, and an engineering team can actually build from.</span></a>
+      <a class="post case" href="/notes/ai-feature-eval-harness/"><span class="k">Side quest · Case study</span><span class="t">We shipped five AI features and couldn&#x27;t say if the next build was better. So we built a harness.</span><span class="s">How a QC harness for a mortgage due-diligence platform turned &quot;looks fine to me&quot; into a verdict anyone on the team can run, and what it taught me about evaluating AI features.</span></a>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="who-card">
+      <span data-mo></span>
+      <p><b>Who's behind this?</b> Gayatri: PM by work, curious by nature, 10+ years in enterprise software. She also partners with teams part-time on 0 → 1 products. <a href="/work/">See how →</a></p>
+    </div>
+  </section>
+
+  <footer class="foot"><span>mostlypm · Mostly PM thinking. Fully working product.</span><span>© 2026 Gayatri</span></footer>
+</div></main>
+
+<div class="guide game-only" id="guide" hidden role="dialog" aria-live="polite" aria-label="Mo, your guide">
+  <div class="bubble">
+    <div class="who">Mo · your guide</div>
+    <p class="say" id="guide-say"></p>
+    <div class="choices" id="guide-choices"></div>
+    <button class="hide" id="guide-hide" type="button" aria-label="Hide Mo">✕</button>
+  </div>
+  <span data-mo="mo"></span>
+</div>
+<button class="mo-btn game-only" id="mo-btn" type="button" hidden aria-label="Ask Mo, your guide"><span data-mo></span></button>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="ptitle" tabindex="-1">
+    <div class="ph"><div><div class="k" id="pkick"></div><h2 id="ptitle"></h2></div><button class="x" id="close" type="button" aria-label="Close level">✕</button></div>
+    <div class="pb" id="pbody"></div>
+  </div>
+</div>
+
+<script src="/assets/quests.js?v=1018d"></script>
+<script src="/assets/game.js?v=1018d"></script>
+</body>
+</html>

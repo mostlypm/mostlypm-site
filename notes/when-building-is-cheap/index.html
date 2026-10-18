@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The Product Blueprint: when building is cheap, fundamentals are everything · mostlypm</title>
+<meta name="description" content="Three posts on how I run 0 → 1 products now. One per phase: Understand, Prove, Shape &amp; ship.">
+<link rel="canonical" href="https://mostlypm.com/notes/when-building-is-cheap/">
+<meta property="og:title" content="The Product Blueprint: when building is cheap, fundamentals are everything">
+<meta property="og:description" content="Three posts on how I run 0 → 1 products now. One per phase: Understand, Prove, Shape &amp; ship.">
+<meta property="og:url" content="https://mostlypm.com/notes/when-building-is-cheap/">
+<meta property="og:type" content="article">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var d=new Date(),t=d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate(),c=d.getDay()===1;try{var s=JSON.parse(localStorage.getItem('mpm-quest-v2')||'null');if(s&&s.modeDay===t)c=!!s.classic}catch(e){}if(c)document.documentElement.classList.add('classic')})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/game.css?v=1018d">
+</head>
+<body>
+<header class="hud">
+  <div class="g"><div class="in hud-in">
+    <a class="logo" href="/">mostly<span>pm</span></a>
+    <nav class="hud-nav" aria-label="Main"><a href="/" data-quest-link>Quest</a><a href="/notes/">Notes</a><a href="/work/">Work with me</a></nav>
+    <div class="stats game-only">
+      <div class="xp"><span>Week XP</span><span class="xpbar" aria-hidden="true"><i id="xpfill"></i></span><span id="xptext">0 / 1050</span></div>
+      <div class="badges" aria-label="Levels cleared this week"><span class="badges-k">Cleared</span><span class="badge" id="b-u" title="Level 1: Understand">1</span><span class="badge" id="b-p" title="Level 2: Prove">2</span><span class="badge" id="b-s" title="Level 3: Shape and ship">3</span><span class="badge wide" id="b-d" title="Side quest">Side</span></div>
+    </div>
+    <button class="mode-btn" type="button" data-mode-toggle>Classic mode</button>
+  </div></div>
+</header>
+<main class="g"><div class="in">
+  <article class="read-wrap">
+    <a class="crumb" href="/notes/">← All notes</a>
+    <header class="read-head">
+      <div class="k">Series · Intro</div>
+      <h1>The Product Blueprint: when building is cheap, fundamentals are everything</h1>
+      <p class="dek">Three posts on how I run 0 → 1 products now. One per phase: Understand, Prove, Shape &amp; ship.</p>
+      <div class="meta"><span>Gayatri</span><span>2026-10-18</span></div>
+    </header>
+    <div class="play-banner game-only"><span>Start of this week's quest is based on this post.</span><a class="btn sm" data-level-link="0" href="/">Play it · 1 min</a></div>
+    <div class="paper">
+<p>A year ago, getting from an idea to something clickable took weeks and a team. Today I can describe a product in the morning and click through a working version by lunch. That is genuinely exciting. It is also a trap.</p>
+<p>When building gets cheap, building the wrong thing gets cheap too. And you build it faster, with more confidence, and with a nicer UI than ever. The cost doesn&rsquo;t disappear. It moves from &ldquo;time to build&rdquo; to &ldquo;time wasted on the wrong thing&rdquo;.</p>
+<p>So my workflow has changed in two directions at once. I build much earlier than I used to. And I spend <em>more</em> time on the PM fundamentals than I did before, not less: who this is for, what problem actually matters, and what &ldquo;good&rdquo; looks like.</p>
+<h2>What changed in my job</h2>
+<p>The traditional PM deliverable was a document. A PRD, some wireframes, a backlog. Engineers read it, imagined the product, and built their version of what I meant.</p>
+<p>Now my deliverable is a working product: a UI with realistic seed data, the evals that define quality for its AI features, and the reasoning behind every decision. The document still exists. It just comes <em>after</em> the first build, not before it.</p>
+<h2>The three phases</h2>
+<ol>
+<li><strong>Understand.</strong> Find the DNA of the idea. A product workshop (product canvas, key personas, empathy maps, workflows), a brainstorm grounded in customer signals, market and existing architecture, and a short intent note.</li>
+<li><strong>Prove.</strong> Test the risky part first. A POC of only the core AI flows, focused on one question: does the AI do the job well enough? Then a quick check with real users, and a Product Blueprint that captures what we learned.</li>
+<li><strong>Shape &amp; ship.</strong> Make it real. A working UI with seed data, an eval baseline against a golden dataset, user validation, and then support alongside engineering during the build.</li>
+</ol>
+<figure>
+<div class="frame"><img loading="lazy" src="/assets/diagrams/workflow.svg" alt="The workflow in three columns. Understand: product workshop, brainstorm on signals, intent note. Prove: POC of core AI flows, quick user check, Product Blueprint. Shape and ship: working UI with seed data, eval baseline, user validation, build support." width="760" height="384"></div>
+<figcaption>The POC sits before the Blueprint on purpose: we learn by building, then write down what we decided.</figcaption>
+</figure>
+
+<p>The order matters more than the steps. Most teams write first and build later. I build a small, ugly thing first, so the document records decisions instead of guesses.</p>
+<p>The next three posts walk through each phase: what I do, the artifacts I produce, and the mistakes that taught me to do it this way.</p>
+    </div>
+    <a class="next-link" href="/notes/understand/">Next: Understand: finding the DNA of an idea →</a><aside class="series" aria-label="Series"><div class="k">The new PM workflow · series</div><ol><li class="here">The Product Blueprint: when building is cheap, fundamentals are everything</li><li><a href="/notes/understand/">Understand: finding the DNA of an idea</a></li><li><a href="/notes/prove/">Prove: test the risky part first</a></li><li><a href="/notes/shape-and-ship/">Shape &amp; ship: making it real</a></li></ol></aside>
+  </article>
+  <footer class="foot"><span>mostlypm · Mostly PM thinking. Fully working product.</span><span>© 2026 Gayatri</span></footer>
+</div></main>
+<script src="/assets/quests.js?v=1018d"></script>
+<script src="/assets/game.js?v=1018d"></script>
+</body>
+</html>
